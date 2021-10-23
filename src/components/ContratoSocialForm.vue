@@ -1,6 +1,6 @@
 <template>
     <div class="cnpj-form">
-
+        
         <div class="upload">
             <sui-dimmer active v-show="isLoading" class="loading">
                 <sui-loader content="Carregando..." />
@@ -26,7 +26,7 @@ export default {
             dropzoneOptions: {
                 url: 'https://httpbin.org/post',
                 thumbnailWidth: 400,
-                addRemoveLinks: true,
+                addRemoveLinks: false,
                 dictDefaultMessage: "Anexe o Contrato Social da empresa aqui"
             },
             isLoading: false
@@ -38,10 +38,9 @@ export default {
     methods: {
         handleFileUpload: function({ dataURL, name }) {
             this.isLoading = true
-            this.$store.commit("setContratoSocial", { arquivo: dataURL, nomeArquivo: name })
             this
                 .$store
-                .dispatch("buscarDadosEmpresa")
+                .dispatch("uploadContratoSocial", { arquivo: dataURL, nomeArquivo: name })
                 .then(() => {
                     this.$emit("update:currentStep", 3)
                 })
@@ -50,7 +49,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .cnpj-form {
         margin-top: 60px;
     }

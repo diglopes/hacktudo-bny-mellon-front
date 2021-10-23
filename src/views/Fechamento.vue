@@ -12,11 +12,11 @@
 
         <p>Em breve, um e-mail será enviado para que seja realizada a assinatura digital deste contrato inteligênte.</p>
 
-        <a href="https://noderedbrasil.s3.us-west-2.amazonaws.com/Documento+Resolv/CID+-+Capsula+de+Informa%C3%A7%C3%B5es+Digitais.pdf" target="_blank"
+        <a :href="cid.file" target="_blank" download="cid.pdf"
           class="ui button primary big"
           style="margin-top: 40px;"
         >
-          Consultar o CID
+          Baixar o CID
         </a>
       </sui-segment>
     </sui-container>
@@ -59,6 +59,11 @@ export default {
   name: 'Fechamento',
   data: () => ({
   }),
+  computed: {
+    cid() {
+      return this.$store.state.cid
+    }
+  },
   methods: {
   },
   components: {

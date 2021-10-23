@@ -167,6 +167,7 @@
       <sui-form-field>
         <label>CEP</label>
         <input
+          v-mask="'##.###-##'"
           type="text"
           name="shipping[address]"
           v-model="empresa.sedeSocial.cep"
@@ -185,22 +186,27 @@
     <sui-form-fields fields="two">
       <sui-form-field>
         <label>Telefone</label>
-        <input
-          v-mask="'+## (##) #####-####'"
-          type="text"
-          name="shipping[address]"
+        <input type="text" name="telefone" v-model="empresa.telefone" />
+        <!-- <sui-dropdown
+          selection
+          :options="telefones"
           v-model="empresa.telefone"
-        />
+        /> -->
       </sui-form-field>
       <sui-form-field>
         <label>Email</label>
-        <input type="text" name="shipping[address]" v-model="empresa.email" />
+        <input type="text" name="email" v-model="empresa.email" />
+        <!-- <sui-dropdown
+          selection
+          :options="emails"
+          v-model="empresa.email"
+        /> -->
       </sui-form-field>
     </sui-form-fields>
 
     <sui-form-field>
       <label>Site</label>
-      <input type="text" name="shipping[address]" v-model="empresa.telefone" />
+      <input type="text" name="shipping[address]" v-model="empresa.site" />
     </sui-form-field>
 
     <sui-form-fields grouped>
@@ -224,7 +230,7 @@
         @click="handleAddPartner"
       >
         <span is="sui-label" slot="label" basic color="orange" pointing="left">
-          {{ socios.length }}
+          {{ empresa.socios.length }}
         </span>
       </sui-button>
     </sui-header>
@@ -236,10 +242,11 @@
       :perPage="1"
       v-model="socioCarousel"
     >
-      <slide v-for="(socio, index) in socios" :key="index" style="width: 100%">
+      <slide v-for="(socio, index) in empresa.socios" :key="index" style="width: 100%">
         <SocioForm
-          v-model="socios[index]"
-          @input="socios[index] = $event.target.value"
+          v-model="empresa.socios[index]"
+          :index="index"
+          @input="empresa.socios[index] = $event.target.value"
         />
       </slide>
     </carousel>
@@ -250,6 +257,7 @@
       color="blue"
       class="btn-confirm"
       @click="handleFinish"
+      :loading="finishLoading"
       >Finalizar</sui-button
     >
 
@@ -262,24 +270,24 @@
             <sui-form-field>
               <sui-checkbox
                 radio
-                label="Procurador"
+                label="Representante legal"
                 name="forma-representacao"
-                value="procurador"
+                value="Representante legal"
                 v-model="modal.formaRepresentacao"
               />
             </sui-form-field>
             <sui-form-field>
               <sui-checkbox
                 radio
-                label="Representante legal"
+                label="Procurador"
                 name="forma-representacao"
-                value="representante_legal"
+                value="Procurador"
                 v-model="modal.formaRepresentacao"
               />
             </sui-form-field>
           </sui-form-fields>
 
-          <sui-form-field v-if="modal.formaRepresentacao == 'procurador'">
+          <sui-form-field v-if="modal.formaRepresentacao == 'Procurador'">
             <label>Anexo da procuração</label>
             <input
               type="file"
@@ -307,7 +315,7 @@
         </sui-form>
       </sui-modal-content>
       <sui-modal-actions>
-        <sui-button primary @click.native="handleAddPartnerModal" type="button" :loading="modalBtnLoading"> Adicionar </sui-button>
+        <sui-button :disabled="!modal.cpf.length" primary @click.native="handleAddPartnerModal" type="button" :loading="modalBtnLoading"> Adicionar </sui-button>
       </sui-modal-actions>
     </sui-modal>
   </sui-form>
@@ -315,57 +323,62 @@
 
 <script>
 import SocioForm from "@/components/SocioForm";
+import moment from "moment"
+import { v4 as uuidv4 } from "uuid"
 // import VerifiedField from '@/components/VerifiedField'
 import { Carousel, Slide } from "vue-carousel";
 
 export default {
   created: function () {
-    this.empresa = this.$store.state.dadosEmpresa;
+    const dados = this.$store.state.dadosEmpresa.infoqualy
+    console.log(dados)
+    const listaEndereco = dados?.ENDERECOS?.ENDERECO
+    const listaTelefone = dados?.TELEFONES?.TELEFONE
+    const listaEemail = dados?.EMAILS?.EMAIL
+
+    const endereco = Array.isArray(listaEndereco) ? listaEndereco[0] : listaEndereco
+    const telefone = Array.isArray(listaTelefone) ? listaTelefone[0] : listaTelefone
+    const email = Array.isArray(listaEemail) ? listaEemail[0] : listaEemail
+
+    this.atividades = this.createOptions([dados.CNAEDescricao])
+
+    this.empresa = {
+      cnpj: dados.CNPJ, 
+      razaoSocial: dados.RAZAO_SOCIAL,
+      nomeFantasia: "",
+      dataConstituicao: dados.DATA_ABERTURA,
+      atividadeEconomicaPrincipal: dados.CNAEDescricao,
+      cnae: dados.CNAE,
+      endereco: endereco.LOGRADOURO,
+      pais: "BRASIL",
+      formaConstituicao: dados.DESCRICAO_NATUREZA_JURIDICA, 
+      sedeSocial: {
+        endereco: `${endereco.TipoLogradouro} ${endereco.LOGRADOURO}`,
+        numero: endereco.NUMERO,
+        bairro: endereco.BAIRRO,
+        cidade: endereco.CIDADE,
+        uf: endereco.UF,
+        cep: endereco.CEP,
+        complemento: endereco.COMPLEMENTO
+      },
+      telefone: telefone,
+      email: email,
+      socios: []
+    }
   },
   data: () => ({
     empresa: {},
     socios: [],
+    emails: [],
+    atividades: [],
+    finishLoading: false,
     open: false,
     modalBtnLoading: false,
-    paises: [{ text: "Brasil", value: "brasil" }],
-    listaSocios: {
-      "27435525850": {
-        nome: "MARCO ANTONIO RIVEIROS",
-        cpf: "27435525850",
-        dataNascimento: "1978-08-03",
-        nacionalidade: "Brasileira",
-        naturalidade: "SÃO PAULO",
-        sexo: "masculino",
-        orgaoEmissor: "DETRAN",
-        numDocumento: "03526418267",
-        dataEmissao: "2017-02-06",
-        representacao: "procurador",
-        tipoDocumento: "cnh"
-      },
-      "27756551818": {
-        nome: "LILIAN CRISTINE MIRANDA CARDOSO ",
-        cpf: "27435525850",
-        dataNascimento: "1979-09-22",
-        nacionalidade: "Brasileira",
-        naturalidade: "SÃO PAULO",
-        sexo: "feminino",
-        orgaoEmissor: "DETRAN",
-        numDocumento: "03632624882",
-        dataEmissao: "2018-12-11",
-        representacao: "representante_legal",
-        tipoDocumento: "cnh"
-      }
-    },
-    atividades: [
-      {
-        text: "1360 - Outras atividades auxiliares dos serviços financeiros não especificadas anteriormente",
-        value: "1360",
-      },
-    ],
+    paises: [{ text: "Brasil", value: "BRASIL" }],
     ufs: [{ text: "SP", value: "SP" }],
     socioCarousel: null,
     modal: {
-      formaRepresentacao: "procurador",
+      formaRepresentacao: "Representante legal",
       cpf: ""
     }
   }),
@@ -377,25 +390,61 @@ export default {
   },
   methods: {
     handleAddPartner: function () {
-      // this.socioCarousel = 0;
-      // this.socios.unshift({});
       this.open = true
     },
     handleAddPartnerModal: function() {
       this.modalBtnLoading = true
-      setTimeout(() => {
-        this.modalBtnLoading = false
-        console.log(this.modal.cpf.replace(/\D/g, ""))
-        this.socios.unshift(this.listaSocios[this.modal.cpf.replace(/\D/g, "")])
-      }, 1000)
-      this.open = false
+      const cpf = this.modal.cpf.replace(/\D/g, "").padStart(11, "0")
+      console.log(cpf);
+      this.$store.dispatch("buscarDadosCPF", cpf)
+        .then(({ infoqualy, obito }) => {
+          console.log(infoqualy)
+          if(!infoqualy.Error) {
+            this.empresa.socios.unshift({
+              nome: infoqualy.NOME,
+              cpf: infoqualy.CPF,
+              dataNascimento: infoqualy.DATA_NASC,
+              nacionalidade: "",
+              naturalidade: "",
+              sexo: infoqualy.SEXO,
+              orgaoEmissor: "",
+              numDocumento: "",
+              dataEmissao: "",
+              representacao: this.modal.formaRepresentacao,
+              tipoDocumento: "",
+              situacao: infoqualy.SITUACAO_RF,
+              situacaoObito: /1/g.test(obito.formaLocalizacao) ? "Positivo": "Negativo",
+              dataConsulta: moment().format("DD/MM/YY às HH:mm:ss"),
+              codControle: uuidv4(),
+              codControleObito: uuidv4()
+            })
+          } else {
+            console.log("DEUM RUIM");
+          }
+        })
+        .finally(() => {
+          this.modalBtnLoading = false
+          this.open = false
+          this.modal = {formaRepresentacao: "Representante legal", cpf: ""}
+        })
+
     },
     handleFinish: function () {
-      this.$store.commit("setHomeLoading", true);
-      setTimeout(() => {
+      // this.$store.commit("setHomeLoading", true);
+      this.finishLoading = true
+      const empresa = this.empresa
+
+      console.log(empresa);
+      this.$store.dispatch("gerarCID", {
+        empresa
+      })
+      .then(() => {
         this.$router.push("/fechamento");
-      }, 1500);
+      })
     },
+    createOptions: function(items) {
+      return items.map(item => ({ text: item, value: item }))
+    }
   },
 };
 </script>

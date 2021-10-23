@@ -1,0 +1,29 @@
+{
+  "infoqualy": {
+    "CNPJ": "33359488000105",
+    "Codigo": "0",
+    "Mensagem": "OK",
+    "RAZAO_SOCIAL": "DIEGO ARAUJO LOPES 41784903892",
+    "DATA_ABERTURA": "2019-04-15",
+    "SITUACAO_CADASTRAL": "ATIVA",
+    "DATA_SITUACAO_CADASTRAL": "2019-04-15",
+    "CNAE": "9511800",
+    "CNAEDescricao": "Reparação e manutenção de computadores e de equipamentos periféricos",
+    "CNAE_SECUNDARIO": "8599603",
+    "CNAE_SECUNDARIO_DESCRICAO": "Treinamento em informática",
+    "NATUREZA_JURIDICA": "2135",
+    "DESCRICAO_NATUREZA_JURIDICA": "EMPRESARIO (INDIVIDUAL)",
+    "CAPITAL_SOCIAL": "20000",
+    "ENDERECOS": {
+      "ENDERECO": {
+        "TipoLogradouro": "AV",
+        "LOGRADOURO": "BEIRA MAR",
+        "NUMERO": "1415",
+        "BAIRRO": "JD CASQUEIRO",
+        "CIDADE": "CUBATAO",
+        "UF": "SP",
+        "CEP": "11530080"
+      }
+    }
+  }
+}

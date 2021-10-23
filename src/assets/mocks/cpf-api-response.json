@@ -1,0 +1,81 @@
+{
+    "infoqualy": {
+      "CPF": "41784903892",
+      "Codigo": "0",
+      "Mensagem": "OK",
+      "NOME": "DIEGO ARAUJO LOPES",
+      "SEXO": "M",
+      "DATA_NASC": "1992-02-26",
+      "NOME_MAE": "ANA PAULA ANDRADE DA SILVA LOPES",
+      "ESCOLARIDADE": "Colegial completo, ou Médio completo",
+      "SITUACAO_RF": "REGULAR",
+      "DATA_CONSULTA_RF": "2019-08-24",
+      "ENDERECOS": {
+        "ENDERECO": [
+          {
+            "TIPO_LOGRADOURO": "AV",
+            "LOGRADOURO": "BEIRA MAR",
+            "NUMERO": "1619",
+            "COMPLEMENTO": "CS 31",
+            "BAIRRO": "JD CASQUEIRO",
+            "CIDADE": "CUBATAO",
+            "UF": "SP",
+            "CEP": "11530080"
+          },
+          {
+            "TIPO_LOGRADOURO": "R",
+            "LOGRADOURO": "1",
+            "NUMERO": "1",
+            "BAIRRO": "RES AGUAPEI",
+            "CIDADE": "ADAMANTINA",
+            "UF": "SP",
+            "CEP": "17800000"
+          }
+        ]
+      },
+      "TELEFONES_MOVEIS": {
+        "TELEFONE": "13982136295"
+      },
+      "TELEFONES_COMERCIAIS": {
+        "TELEFONE": "1333632552"
+      },
+      "EMAILS": {
+        "EMAIL": "diego-chez@hotmail.com"
+      },
+      "PARTICIPACOES": {
+        "PARTICIPACAO": {
+          "CNPJ": "33359488000105",
+          "RAZAO_SOCIAL": "DIEGO ARAUJO LOPES 41784903892",
+          "CARGO": "Empresário Individual",
+          "PARTICIPACAO": "100,00",
+          "DATA_ENTRADA": "2019-04-15"
+        }
+      },
+      "RENDA_ESTIMADA": {
+        "FAIXA_RENDA": "C (entre 4 e 10 SM)",
+        "VALOR_RENDA": "4498,93"
+      }
+    },
+    "obito": {
+      "nm_falecido": "Nao Localizado",
+      "nm_mae_falecido": "Nao Localizado",
+      "dt_nasc": "Nao Localizado",
+      "dt_obito": "Nao Localizado",
+      "nu_cpf": "Nao Localizado",
+      "formaLocalizacao": "0 - Nao Localizado",
+      "codigoScore": "0",
+      "scoreResolv": "Risco de Homonimo - 0%"
+    },
+    "consulta-receita": {
+      "CPF": "41784903892",
+      "Nome": "DIEGO ARAUJO LOPES",
+      "Situacao": "REGULAR",
+      "DataNascimento": "26/02/1992",
+      "DataInscricao": "10/06/2009",
+      "DataHora": "22/10/2021 07:52:08",
+      "Comprovante": "E661.A68F.57C8.BDD0",
+      "Status": "1",
+      "Message": "CPF e data de nascimento válidos",
+      "Fonte": "1"
+    }
+  }

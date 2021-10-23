@@ -1,12 +1,12 @@
 <template>
   <sui-segment  style="width: 100%;">
     <sui-form-fields grouped >
-      <label for="representacao">Forma de representação</label>
+      <label :for="`representacao-${index}`">Forma de representação</label>
       <sui-form-field>
-        <sui-checkbox radio label="Procurador" name="representacao" value="procurador" v-model="value.representacao"/>
+        <sui-checkbox radio label="Representante legal" :name="`representacao-${index}`" value="Representante legal" v-model="value.representacao"/>
       </sui-form-field>
       <sui-form-field>
-        <sui-checkbox radio label="Representante legal" name="representacao" value="representante_legal" v-model="value.representacao"/>
+        <sui-checkbox radio label="Procurador" :name="`representacao-${index}`" value="Procurador" v-model="value.representacao"/>
       </sui-form-field>
     </sui-form-fields>
 
@@ -60,12 +60,12 @@
     </sui-form-fields>
 
     <sui-form-fields grouped>
-      <label for="sexo">Sexo</label>
+      <label :for="`sexo-${index}`">Sexo</label>
       <sui-form-field>
-        <sui-checkbox radio label="Feminino" name="sexo" value="feminino" v-model="value.sexo"/>
+        <sui-checkbox radio label="Feminino" :name="`sexo-${index}`" value="F" v-model="value.sexo"/>
       </sui-form-field>
       <sui-form-field>
-        <sui-checkbox radio label="Masculino" name="sexo" value="masculino" v-model="value.sexo"/>
+        <sui-checkbox radio label="Masculino" :name="`sexo-${index}`" value="M" v-model="value.sexo"/>
       </sui-form-field>
     </sui-form-fields>
 
@@ -110,7 +110,7 @@
 
 <script>
 export default {
-  props: ['value'],
+  props: ['value', 'index'],
   data: () => ({
     tiposDocumento: [
       { text: "Carteira de Motorista (CNH)", value: "cnh" },
