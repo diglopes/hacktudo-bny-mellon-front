@@ -8,7 +8,7 @@ export function buscarDadosCNPJ(cnpj) {
     //     resolve(cnpjApiResponse)
     // })
     return axios
-        .post("http://ec2-34-211-68-118.us-west-2.compute.amazonaws.com:1880/cnpj", { cnpj })
+        .post("https://the-nodes-tim.herokuapp.com/cnpj", { cnpj })
         .then(({ data }) => {
             return data
         })
@@ -19,7 +19,7 @@ export function buscarDadosCPF(cpf) {
     //     resolve(cpfApiResponse)
     // })
     return axios
-        .post("http://ec2-34-211-68-118.us-west-2.compute.amazonaws.com:1880/cpf1", { cpf })
+        .post("https://the-nodes-tim.herokuapp.com/cpf", { cpf })
         .then(({ data }) => {
             return data
         })
@@ -27,7 +27,7 @@ export function buscarDadosCPF(cpf) {
 
 export function gerarCID(cidData) {
     return axios
-        .post("http://54.234.138.123:1880/gerar-cid", cidData)
+        .post("https://the-nodes-tim.herokuapp.com/gerar-cid", cidData)
         .then(({ data }) => {
             return data
         })
