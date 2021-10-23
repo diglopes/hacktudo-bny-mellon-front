@@ -12,12 +12,21 @@
 
         <p>Em breve, um e-mail será enviado para que seja realizada a assinatura digital deste contrato inteligênte.</p>
 
+        <a 
+          href="/"
+          class="ui button primary big"
+          style="margin-top: 40px;"
+        >
+          Realizar outro cadastro
+        </a>
+
         <a :href="cid.file" target="_blank" download="cid.pdf"
           class="ui button primary big"
           style="margin-top: 40px;"
         >
           Baixar o CID
         </a>
+
       </sui-segment>
     </sui-container>
   </div>
