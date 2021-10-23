@@ -10,12 +10,14 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { title: "TIM - Onboarding digital inteligente" }
   },
   {
     path: '/fechamento',
     name: 'Fechamento',
-    component: Fechamento
+    component: Fechamento,
+    meta: { title: "TIM - Muito obrigado!" }
   }
 ]
 
@@ -24,5 +26,12 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+const DEFAULT_TITLE = "TIM"
+router.afterEach((to) => {
+  Vue.nextTick(() => {
+      document.title = to.meta.title || DEFAULT_TITLE;
+  });
+});
 
 export default router
